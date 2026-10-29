@@ -8,6 +8,16 @@ const headers = readFileSync(new URL('../_headers', import.meta.url), 'utf8');
 
 execFileSync(process.execPath, ['--check', new URL('../app.js', import.meta.url).pathname]);
 assert.equal((html.match(/<section class="step(?: on)?" data-s="\d"/g) || []).length, 4);
+const firstStep = html.indexOf('<section class="step on" data-s="1"');
+const firstStepEnd = html.indexOf('</section>', firstStep);
+const welcome = html.indexOf('class="welcome"');
+assert.ok(welcome > firstStep && welcome < firstStepEnd, 'Purpose statement appears on initial step only');
+assert.ok(welcome < html.indexOf('Step 1 of 4'), 'Explain the tool before the visitor starts');
+assert.match(html, /Think you’ve been scammed\? Start here\./);
+assert.match(html, /links to official reporting websites/);
+assert.match(html, /this site does not submit them for you/);
+assert.equal((html.match(/class="welcome"/g) || []).length, 1, 'No repeat introduction during other steps');
+
 for (const id of ['types','whos','pays','lost','amts','gave','d1c','d2c','make','result','sum','sharebtn','after-results','legal-notice']) {
   assert.match(html + js, new RegExp('(id="' + id + '"|id=' + id + '|\\$\\("' + id + '"\\))'), id);
 }

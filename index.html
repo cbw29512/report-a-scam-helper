@@ -11,6 +11,7 @@ a{color:#0040a0}a:focus,button:focus,input:focus,textarea:focus{outline:4px soli
 header{background:var(--brand);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:4;box-shadow:0 2px 10px rgba(0,0,0,.12)}.header-row{max-width:900px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}.header-title{min-width:0}header h1{margin:0;font-size:1.3em;line-height:1.2}header p{margin:4px 0 0;font-size:.72em;line-height:1.35}.toolbar-support{font-size:.68em;line-height:1.2;font-weight:700;color:#fff;border:1px solid rgba(255,255,255,.8);padding:9px 11px;border-radius:9px;text-decoration:none;white-space:nowrap}.toolbar-support:hover,.toolbar-support:focus-visible{background:rgba(255,255,255,.14)}
 main{max-width:780px;margin:0 auto;padding:16px}
 .card{background:var(--soft);border:2px solid var(--line);border-radius:14px;padding:18px;margin:18px 0}
+.welcome{border-left:5px solid var(--brand);border-radius:12px;background:#fff7f7;padding:15px 18px;margin:0 0 20px}.welcome h2{font-size:1.16em;line-height:1.25;margin:0 0 6px}.welcome p{margin:5px 0 0;font-size:.84em;line-height:1.45}.welcome .welcome-benefit{font-weight:700;color:#3e2529}
 .privacy{background:#e9f7ee;border-color:var(--ok);font-size:.78em;padding:12px 16px;margin:0}.privacy-bottom{margin:24px 0 8px}.privacy strong{color:var(--ok)}.after-results[hidden]{display:none!important}.after-results{margin-top:20px}.after-results .card{margin:12px 0}.after-results .btn{font-size:.9em;min-height:48px}.thanks{border-color:#9bb8a6;background:#f4fbf6}.thanks p{margin-bottom:10px}
 h2{font-size:1.35em;margin:.2em 0 .5em}h3{font-size:1.12em;margin:1em 0 .4em}
 .hint{margin:0 0 8px;color:#333}
@@ -48,7 +49,14 @@ footer{max-width:780px;margin:0 auto;padding:16px;font-size:.82em}
 </head><body>
 <header><div class="header-row"><div class="header-title"><h1>Report a Scam Helper</h1><p>Answer four short steps. Get a report and an action plan.</p></div><a class="toolbar-support noprint" href="https://buymeacoffee.com/divclass016" target="_blank" rel="noopener noreferrer" aria-label="Optional support: Buy Me a Coffee">☕ Support</a></div></header>
 <main>
-<section class="step on" data-s="1" aria-labelledby="h1s"><p class="prog">Step 1 of 4</p><h2 id="h1s">What happened?</h2>
+<section class="step on" data-s="1" aria-labelledby="h1s">
+<div class="welcome" aria-label="What this scam reporting helper does">
+<h2>Think you’ve been scammed? Start here.</h2>
+<p>Whether you lost money, shared information, or got a suspicious message, this free tool helps you figure out <strong>what to do next and where to report it.</strong></p>
+<p class="welcome-benefit">Answer four short steps to get a personal action checklist, links to official reporting websites, and a report you can copy or print.</p>
+<p>No account needed. You choose which reports to file; this site does not submit them for you.</p>
+</div>
+<p class="prog">Step 1 of 4</p><h2 id="h1s">What happened?</h2>
 <p class="hint">Tap everything that fits.</p><div class="chips" id="types"></div>
 <h3>Who did they say they were?</h3><p class="hint">Tap one, or skip.</p><div class="chips" id="whos"></div>
 <div class="nav"><button class="btn" type="button" data-go="2">Next</button></div></section>
