@@ -65,6 +65,12 @@ assert.ok(html.indexOf('Private by design.') > html.indexOf('<section id="result
 assert.ok(html.indexOf('Tip $1') < 0 && html.indexOf('Tip $2') < 0 && html.indexOf('Tip $5') < 0);
 assert.match(headers, /Content-Security-Policy/);
 assert.match(headers, /form-action 'none'/);
+assert.doesNotMatch(headers, /script-src[^;]*'unsafe-inline'/,'Inline executable scripts are not needed');
+assert.match(headers, /object-src 'none'/);
+assert.match(headers, /frame-ancestors 'none'/);
+assert.match(headers, /X-Content-Type-Options: nosniff/);
+assert.match(headers, /Permissions-Policy: camera=\(\), microphone=\(\), geolocation=\(\)/);
+
 assert.doesNotMatch(html, /name="robots" content="noindex"/,'Public homepage should not silently opt out of search');
 assert.doesNotMatch(headers, /X-Robots-Tag:\s*noindex/,'Production headers should not block indexing');
 assert.match(html, /rel="canonical" href="https:\/\/report-a-scam-helper\.netlify\.app\//);
