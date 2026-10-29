@@ -4,8 +4,8 @@ const WHOS=[["amazon","Amazon or another store"],["bankco","My bank or card comp
 const LOST=[["yes","Yes, I lost money"],["no","No, I did not lose money"]];
 const AMTS=[["Under $100","Under $100"],["$100 to $499","$100 to $499"],["$500 to $999","$500 to $999"],["$1,000 to $4,999","$1,000 to $4,999"],["$5,000 to $24,999","$5,000 to $24,999"],["$25,000 or more","$25,000 or more"],["Not sure","Not sure"]];
 const GAVE=[["ssn","My Social Security number"],["login","A password or account login"],["remote","Access to my computer or phone"],["bank","My bank or card information"]];
-const WHEN=[["today","Today"],["yesterday","Yesterday"],["week","This week"],["earlier","Earlier (pick a date)"]];
-const S={type:[],who:[],pay:[],lost:["no"],amt:[],gave:[],d1:[],d2:[]};
+const WHEN=[["today","Today"],["yesterday","Yesterday"],["week","This week"],["earlier","Earlier (pick a date)"],["unsure","Not sure"]];
+const S={type:[],who:[],pay:[],lost:[],amt:[],gave:[],d1:[],d2:[]};
 const ONE={who:1,lost:1,amt:1,d1:1,d2:1};
 const $=id=>document.getElementById(id);
 function chips(el,key,arr,small){$(el).innerHTML=arr.map(([v,t])=>`<button type="button" class="chip${small?" small":""}" ${ONE[key]?"data-one":""} data-k="${key}" data-v="${v}" aria-pressed="${S[key].includes(v)}">${t}</button>`).join("");}
@@ -15,13 +15,52 @@ function refresh(){document.querySelectorAll(".chip").forEach(c=>c.setAttribute(
 document.addEventListener("click",e=>{const c=e.target.closest(".chip");if(c){const k=c.dataset.k,v=c.dataset.v,a=S[k];
  if(ONE[k])S[k]=(a[0]==v&&k!="lost")?[]:[v];
  else{const i=a.indexOf(v);if(i>=0)a.splice(i,1);else{a.push(v);if(k=="pay"){if(v=="none")S.pay=["none"];else S.pay=S.pay.filter(x=>x!="none");}}}
- refresh();return;}
+ refresh();clearResolvedErrors();return;}
  const g=e.target.closest("[data-go]");if(g){go(+g.dataset.go);return;}
  const cp=e.target.closest("[data-copy]");if(cp){copyIt(cp.dataset.copy);return;}
  if(e.target.id=="make")build();
 });
 refresh();
-function go(n){$("after-results").hidden=true;$("legal-notice").hidden=true;document.querySelectorAll(".step").forEach(s=>s.classList.toggle("on",s.dataset.s==n));const h=document.querySelector(`.step[data-s="${n}"] h2`);if(h){h.tabIndex=-1;h.focus();}window.scrollTo(0,0);}
+function stepError(n){
+ if(n===1&&!S.type.length)return "Choose at least one answer under What happened before continuing.";
+ if(n===2&&!S.pay.length)return "Choose how you paid, or select I did not pay.";
+ if(n===3&&!S.lost.length)return "Choose Yes or No to tell us whether you lost money.";
+ if(n===4){
+  if(!S.d1.length)return "Choose when the scam started. You can select Not sure.";
+  if(S.d1[0]==="earlier"&&!$("d1").value)return "Pick a start date, or choose Not sure.";
+  if(!S.d2.length)return "Choose when the last contact or payment happened. You can select Not sure.";
+  if(S.d2[0]==="earlier"&&!$("d2").value)return "Pick the date of last contact, or choose Not sure.";
+ }
+ return "";
+}
+function showValidation(n){
+ const message=stepError(n),error=$("error-"+n);
+ error.textContent=message;error.hidden=!message;
+ if(message)error.focus();
+ return !message;
+}
+function clearResolvedErrors(){
+ for(let n=1;n<=4;n++){
+  const error=$("error-"+n);
+  if(!error.hidden&&!stepError(n)){error.textContent="";error.hidden=true;}
+ }
+}
+["d1","d2"].forEach(id=>$(id).addEventListener("change",clearResolvedErrors));
+function showStep(n){
+ $("after-results").hidden=true;$("legal-notice").hidden=true;
+ document.querySelectorAll(".step").forEach(s=>s.classList.toggle("on",s.dataset.s==n));
+ const h=document.querySelector(`.step[data-s="${n}"] h2`);
+ if(h){h.tabIndex=-1;h.focus();}
+ window.scrollTo(0,0);
+}
+function go(n){
+ const active=document.querySelector(".step.on");
+ const from=active?.dataset.s?Number(active.dataset.s):5;
+ if(n>from){for(let step=from;step<n;step++){
+  if(stepError(step)){showStep(step);showValidation(step);return;}
+ }}
+ showStep(n);
+}
 const lab=(a,v)=>a.filter(x=>v.includes(x[0])).map(x=>x[1]);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const L=(u,t)=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`;
@@ -31,6 +70,10 @@ function whenTxt(k,inp){const v=S[k][0],d=new Date();const f=x=>x.toLocaleDateSt
  if(v=="today")return f(d);if(v=="yesterday"){d.setDate(d.getDate()-1);return f(d);}if(v=="week")return "Within the past week";
  if(v=="earlier"){const x=$(inp).value;return x?f(new Date(x+"T12:00:00")):"Earlier (date not sure)";}return "Not sure";}
 function build(){
+ // Guard the result generator as well as every Next button: no direct bypass.
+ for(let step=1;step<=4;step++){
+  if(stepError(step)){showStep(step);showValidation(step);return;}
+ }
  const t=S.type,p=S.pay.filter(x=>x!="none"),g=S.gave,lost=S.lost[0]=="yes";
  const val=id=>$(id).value.trim();
  const items=[],urgent=[];
