@@ -11,7 +11,7 @@ a{color:#0040a0}a:focus,button:focus,input:focus,textarea:focus{outline:4px soli
 header{background:var(--brand);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:4;box-shadow:0 2px 10px rgba(0,0,0,.12)}.header-row{max-width:900px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}.header-title{min-width:0}header h1{margin:0;font-size:1.3em;line-height:1.2}header p{margin:4px 0 0;font-size:.72em;line-height:1.35}.toolbar-support{font-size:.68em;line-height:1.2;font-weight:700;color:#fff;border:1px solid rgba(255,255,255,.8);padding:9px 11px;border-radius:9px;text-decoration:none;white-space:nowrap}.toolbar-support:hover,.toolbar-support:focus-visible{background:rgba(255,255,255,.14)}
 main{max-width:780px;margin:0 auto;padding:16px}
 .card{background:var(--soft);border:2px solid var(--line);border-radius:14px;padding:18px;margin:18px 0}
-.privacy{background:#e9f7ee;border-color:var(--ok);font-size:.85em;padding:13px 16px;margin:10px 0 18px}.privacy strong{color:var(--ok)}.after-results[hidden]{display:none!important}.after-results{margin-top:20px}.after-results .card{margin:12px 0}.after-results .btn{font-size:.9em;min-height:48px}.thanks{border-color:#9bb8a6;background:#f4fbf6}.thanks p{margin-bottom:10px}
+.privacy{background:#e9f7ee;border-color:var(--ok);font-size:.78em;padding:12px 16px;margin:0}.privacy-bottom{margin:24px 0 8px}.privacy strong{color:var(--ok)}.after-results[hidden]{display:none!important}.after-results{margin-top:20px}.after-results .card{margin:12px 0}.after-results .btn{font-size:.9em;min-height:48px}.thanks{border-color:#9bb8a6;background:#f4fbf6}.thanks p{margin-bottom:10px}
 h2{font-size:1.35em;margin:.2em 0 .5em}h3{font-size:1.12em;margin:1em 0 .4em}
 .hint{margin:0 0 8px;color:#333}
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 10px}
@@ -48,8 +48,6 @@ footer{max-width:780px;margin:0 auto;padding:16px;font-size:.82em}
 </head><body>
 <header><div class="header-row"><div class="header-title"><h1>Report a Scam Helper</h1><p>Answer four short steps. Get a report and an action plan.</p></div><a class="toolbar-support noprint" href="https://buymeacoffee.com/divclass016" target="_blank" rel="noopener noreferrer" aria-label="Optional support: Buy Me a Coffee">☕ Support</a></div></header>
 <main>
-<p class="card privacy"><strong>Private by design.</strong> Your answers stay in this browser; this tool does not submit reports for you. Do not enter passwords, full card numbers, or Social Security numbers. Not a government service.</p>
-
 <section class="step on" data-s="1" aria-labelledby="h1s"><p class="prog">Step 1 of 4</p><h2 id="h1s">What happened?</h2>
 <p class="hint">Tap everything that fits.</p><div class="chips" id="types"></div>
 <h3>Who did they say they were?</h3><p class="hint">Tap one, or skip.</p><div class="chips" id="whos"></div>
@@ -90,6 +88,9 @@ footer{max-width:780px;margin:0 auto;padding:16px;font-size:.82em}
 
 <div class="card tip"><h2>Help keep this free (optional)</h2><p>If the report plan helped you, a coffee helps keep this free for others. Your report and checklist are yours whether you contribute or not.</p>
 <a class="btn alt" href="https://buymeacoffee.com/divclass016" target="_blank" rel="noopener noreferrer">☕ Buy me a coffee</a></div></div>
+<aside aria-label="Privacy notice" class="privacy-bottom">
+<p class="card privacy"><strong>Private by design.</strong> Your answers stay in this browser; this tool does not submit reports for you. Do not enter passwords, full card numbers, or Social Security numbers. Not a government service.</p>
+</aside>
 </main>
 <div id="toast" role="status" aria-live="assertive"></div>
 <footer id="legal-notice" class="after-results" hidden><p><strong>Disclaimer:</strong> This is not a government website and this is not legal advice. It is a free helper from Stop Scams Academy that points you to official reporting websites. This helper does not send your report anywhere; you file it yourself on each official website. Always check that you are on the real official website before you type anything. If you are in danger, call 911.</p></footer>
