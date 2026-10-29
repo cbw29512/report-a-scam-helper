@@ -33,16 +33,52 @@ function stepError(n){
  }
  return "";
 }
+// Identify every unanswered required field, not just the first validation message.
+function missingFields(n){
+ if(n===1)return S.type.length?[]:["types"];
+ if(n===2)return S.pay.length?[]:["pays"];
+ if(n===3)return S.lost.length?[]:["lost"];
+ if(n===4){
+  const missing=[];
+  if(!S.d1.length)missing.push("d1c");
+  else if(S.d1[0]==="earlier"&&!$("d1").value)missing.push("d1");
+  if(!S.d2.length)missing.push("d2c");
+  else if(S.d2[0]==="earlier"&&!$("d2").value)missing.push("d2");
+  return missing;
+ }
+ return [];
+}
+function highlightMissing(n){
+ const missing=missingFields(n);
+ const candidates=n===1?["types"]:n===2?["pays"]:n===3?["lost"]:n===4?["d1c","d1","d2c","d2"]:[];
+ candidates.forEach(id=>{
+  const field=$(id),invalid=missing.includes(id);
+  field.classList.toggle("needs-answer",invalid);
+  field.setAttribute("aria-invalid",String(invalid));
+ });
+ return missing;
+}
 function showValidation(n){
  const message=stepError(n),error=$("error-"+n);
  error.textContent=message;error.hidden=!message;
- if(message)error.focus();
+ const missing=highlightMissing(n);
+ if(message&&missing.length){
+  const field=$(missing[0]);
+  // Focus the unanswered question, not a distant error message or Next button.
+  field.setAttribute("tabindex","-1");
+  field.focus();
+  field.scrollIntoView?.({block:"center"});
+ }
  return !message;
 }
 function clearResolvedErrors(){
  for(let n=1;n<=4;n++){
   const error=$("error-"+n);
-  if(!error.hidden&&!stepError(n)){error.textContent="";error.hidden=true;}
+  if(!error.hidden){
+   const message=stepError(n);
+   error.textContent=message;error.hidden=!message;
+   highlightMissing(n);
+  }
  }
 }
 ["d1","d2"].forEach(id=>$(id).addEventListener("change",clearResolvedErrors));
