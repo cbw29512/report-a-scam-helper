@@ -21,7 +21,7 @@ document.addEventListener("click",e=>{const c=e.target.closest(".chip");if(c){co
  if(e.target.id=="make")build();
 });
 refresh();
-function go(n){document.querySelectorAll(".step").forEach(s=>s.classList.toggle("on",s.dataset.s==n));const h=document.querySelector(`.step[data-s="${n}"] h2`);if(h){h.tabIndex=-1;h.focus();}window.scrollTo(0,0);}
+function go(n){$("after-results").hidden=true;$("legal-notice").hidden=true;document.querySelectorAll(".step").forEach(s=>s.classList.toggle("on",s.dataset.s==n));const h=document.querySelector(`.step[data-s="${n}"] h2`);if(h){h.tabIndex=-1;h.focus();}window.scrollTo(0,0);}
 const lab=(a,v)=>a.filter(x=>v.includes(x[0])).map(x=>x[1]);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const L=(u,t)=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`;
@@ -81,7 +81,7 @@ function build(){
  <div class="nav"><button class="btn alt" type="button" data-go="4">Back to edit</button><button class="btn alt" type="button" id="resetbtn">Start over (clears everything)</button></div></div></div>`;
  $("dlbtn").onclick=dl;$("prbtn").onclick=()=>window.print();$("resetbtn").onclick=()=>location.reload();
  r.querySelectorAll("[data-done]").forEach(c=>c.onchange=()=>$("task"+c.dataset.done).classList.toggle("done",c.checked));
- document.querySelectorAll(".step").forEach(s=>s.classList.remove("on"));r.classList.add("on");r.focus();window.scrollTo(0,0);
+ document.querySelectorAll(".step").forEach(s=>s.classList.remove("on"));r.classList.add("on");$("after-results").hidden=false;$("legal-notice").hidden=false;r.focus();window.scrollTo(0,0);
 }
 let tt;function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),4500);}
 function legacyCopy(){const ta=document.createElement("textarea");ta.value=summary;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand("copy");}catch(e){}ta.remove();return ok;}
