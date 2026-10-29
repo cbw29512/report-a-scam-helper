@@ -8,10 +8,10 @@
 :root{--bg:#fff;--ink:#111;--brand:#b00020;--soft:#f4f4f6;--line:#bbb;--ok:#0b6b2e}
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:21px;line-height:1.55;color:var(--ink);background:var(--bg)}
 a{color:#0040a0}a:focus,button:focus,input:focus,textarea:focus{outline:4px solid #ffbf00;outline-offset:2px}
-header{background:var(--brand);color:#fff;padding:18px 16px}header h1{margin:0;font-size:1.6em;line-height:1.2}header p{margin:6px 0 0}
+header{background:var(--brand);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:4;box-shadow:0 2px 10px rgba(0,0,0,.12)}.header-row{max-width:900px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}.header-title{min-width:0}header h1{margin:0;font-size:1.3em;line-height:1.2}header p{margin:4px 0 0;font-size:.72em;line-height:1.35}.toolbar-support{font-size:.68em;line-height:1.2;font-weight:700;color:#fff;border:1px solid rgba(255,255,255,.8);padding:9px 11px;border-radius:9px;text-decoration:none;white-space:nowrap}.toolbar-support:hover,.toolbar-support:focus-visible{background:rgba(255,255,255,.14)}
 main{max-width:780px;margin:0 auto;padding:16px}
 .card{background:var(--soft);border:2px solid var(--line);border-radius:14px;padding:18px;margin:18px 0}
-.privacy{background:#e9f7ee;border-color:var(--ok)}
+.privacy{background:#e9f7ee;border-color:var(--ok);font-size:.85em;padding:13px 16px;margin:10px 0 18px}.privacy strong{color:var(--ok)}.after-results[hidden]{display:none!important}.after-results{margin-top:20px}.after-results .card{margin:12px 0}.after-results .btn{font-size:.9em;min-height:48px}.thanks{border-color:#9bb8a6;background:#f4fbf6}.thanks p{margin-bottom:10px}
 h2{font-size:1.35em;margin:.2em 0 .5em}h3{font-size:1.12em;margin:1em 0 .4em}
 .hint{margin:0 0 8px;color:#333}
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 10px}
@@ -42,13 +42,13 @@ pre{white-space:pre-wrap;background:#fff;border:2px solid var(--line);padding:14
 .share{text-align:center}.share img{width:220px;height:220px;max-width:100%;border:2px solid var(--line);border-radius:8px;background:#fff}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0b6b2e;color:#fff;font-weight:700;font-size:1.1em;padding:16px 22px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.35);z-index:10;max-width:92vw;text-align:center;display:none}
 #toast.on{display:block}
-footer{max-width:780px;margin:0 auto;padding:16px;font-size:.9em}
-@media print{header,.noprint,footer,.tip,.share,#toast{display:none!important}.step{display:none!important}#result{display:block!important}body{font-size:14pt}}
+footer{max-width:780px;margin:0 auto;padding:16px;font-size:.82em}
+@media (max-width:480px){body{font-size:18px}header{padding:11px 12px}header h1{font-size:1.15em}header p{font-size:.67em}.toolbar-support{font-size:.7em;padding:8px 9px}.card{padding:14px}.chip{min-height:52px;padding:10px 12px}}@media print{header,.noprint,footer,.tip,.share,#toast,.after-results{display:none!important}.step{display:none!important}#result{display:block!important}body{font-size:14pt}}
 </style><script data-goatcounter="https://chrisgrowth-rsh.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head><body>
-<header><h1>Report a Scam Helper</h1><p>Free. Just tap the buttons. We tell you exactly where to report, and we write the report for you.</p></header>
+<header><div class="header-row"><div class="header-title"><h1>Report a Scam Helper</h1><p>Answer four short steps. Get a report and an action plan.</p></div><a class="toolbar-support noprint" href="https://buymeacoffee.com/divclass016" target="_blank" rel="noopener noreferrer" aria-label="Optional support: Buy Me a Coffee">☕ Support</a></div></header>
 <main>
-<div class="card privacy"><strong>Your privacy:</strong> Everything you choose or type stays on your own device. Nothing is stored, saved, emailed, or sent anywhere. When you close this page, it is gone. Do not type passwords, full card numbers, or your Social Security number here. You never need them for this.</div>
+<p class="card privacy"><strong>Private by design.</strong> Your answers stay in this browser; this tool does not submit reports for you. Do not enter passwords, full card numbers, or Social Security numbers. Not a government service.</p>
 
 <section class="step on" data-s="1" aria-labelledby="h1s"><p class="prog">Step 1 of 4</p><h2 id="h1s">What happened?</h2>
 <p class="hint">Tap everything that fits.</p><div class="chips" id="types"></div>
@@ -80,19 +80,17 @@ footer{max-width:780px;margin:0 auto;padding:16px;font-size:.9em}
 
 <section id="result" class="step" aria-live="polite" tabindex="-1"></section>
 
-<div class="card share noprint"><h2>Share this helper</h2><p>Scan this code with a phone camera to open this page, or tap Share to send it to a friend or family member.</p>
+<div id="after-results" class="after-results noprint" hidden><div class="card thanks"><h2>Your report plan is ready</h2><p>You can save your report and follow the checklist above. These optional resources are here only after you finish.</p></div>
+<div class="card share"><h2>Share this helper</h2><p>Scan this code with a phone camera to open this page, or tap Share to send it to a friend or family member.</p>
 <img src="qr.svg" alt="QR code that opens report-a-scam-helper.netlify.app" width="220" height="220">
 <p><strong>report-a-scam-helper.netlify.app</strong></p>
 <button class="btn" type="button" id="sharebtn">Share this helper</button></div>
 
-<div class="card noprint"><h2>Learn to spot scams</h2><p>Watch free videos on the <a href="https://www.youtube.com/@StopScamAcademy" target="_blank" rel="noopener">Stop Scams Academy YouTube channel</a>.</p></div>
+<div class="card"><h2>Learn to spot scams</h2><p>Watch free videos on the <a href="https://www.youtube.com/@StopScamAcademy" target="_blank" rel="noopener">Stop Scams Academy YouTube channel</a>.</p></div>
 
-<div class="card tip noprint"><h2>Was this helpful?</h2><p>This tool is free. If it helped you, a small tip keeps it running.</p>
-<a class="btn" href="https://buymeacoffee.com/divclass016" target="_blank" rel="noopener">Tip $1</a>
-<a class="btn" href="https://buymeacoffee.com/divclass016" target="_blank" rel="noopener">Tip $2</a>
-<a class="btn" href="https://buymeacoffee.com/divclass016" target="_blank" rel="noopener">Tip $5</a>
-<a class="btn alt" href="https://buymeacoffee.com/divclass016" target="_blank" rel="noopener">Custom amount</a></div>
+<div class="card tip"><h2>Help keep this free (optional)</h2><p>If the report plan helped you, a coffee helps keep this free for others. Your report and checklist are yours whether you contribute or not.</p>
+<a class="btn alt" href="https://buymeacoffee.com/divclass016" target="_blank" rel="noopener noreferrer">☕ Buy me a coffee</a></div></div>
 </main>
 <div id="toast" role="status" aria-live="assertive"></div>
-<footer><p><strong>Disclaimer:</strong> This is not a government website and this is not legal advice. It is a free helper from Stop Scams Academy that points you to official reporting websites. This helper does not send your report anywhere; you file it yourself on each official website. Always check that you are on the real official website before you type anything. If you are in danger, call 911.</p></footer>
+<footer id="legal-notice" class="after-results" hidden><p><strong>Disclaimer:</strong> This is not a government website and this is not legal advice. It is a free helper from Stop Scams Academy that points you to official reporting websites. This helper does not send your report anywhere; you file it yourself on each official website. Always check that you are on the real official website before you type anything. If you are in danger, call 911.</p></footer>
 <script src="app.js"></script></body></html>
