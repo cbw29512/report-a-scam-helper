@@ -44,5 +44,15 @@ try{
  assert.doesNotMatch(summary,/\$NaN/);
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2),true,'Mobile horizontal overflow');
  assert.deepEqual(errors,[],'No uncaught browser JavaScript errors');
- console.log('PASS: real Chrome mobile viewport, intro, required answers, highlights, result, privacy, overflow');
+ const desktop=await browser.newPage({viewport:{width:1366,height:768}});
+ await desktop.goto(pathToFileURL(resolve(root,'index.html')).href,{waitUntil:'domcontentloaded'});
+ await desktop.locator('#types .chip').first().waitFor();
+ assert.equal(await desktop.locator('.step.on').getAttribute('data-s'),'1');
+ assert.equal(await desktop.locator('.toolbar-support').isVisible(),true);
+ assert.equal(await desktop.locator('.welcome').isVisible(),true);
+ assert.equal(await desktop.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2),true,'Desktop horizontal overflow');
+ assert.equal(await desktop.locator('.privacy-bottom').count(),1);
+ assert.equal(await desktop.locator('a[href="https://buymeacoffee.com/divclass016"]').count(),2,'Exactly toolbar and end donation prompts');
+ await desktop.close();
+ console.log('PASS: real Chrome mobile and desktop viewports, intro, required answers, highlights, result, privacy, overflow');
 }finally{await browser.close();}
