@@ -18,3 +18,5 @@ jobs:
         run: node --check app.js
       - name: Verify form-first design and safety requirements
         run: node scripts/verify-site.mjs
+      - name: Test required answers and report generation
+        run: node scripts/verify-validation.mjs
