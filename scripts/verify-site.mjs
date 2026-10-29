@@ -33,6 +33,16 @@ assert.match(js,/lost:\[\]/,'Money loss must not silently default to No');
 assert.match(js,/\["unsure","Not sure"\]/,'Unknown date is an explicit choice');
 assert.match(js,/function stepError\(n\)/);
 assert.match(js,/function showValidation\(n\)/);
+assert.match(html,/\.chips\.needs-answer,input\.needs-answer/,'Missing-answer outline styles exist');
+assert.match(js,/function missingFields\(n\)/,'Unanswered fields are located explicitly');
+assert.match(js,/function highlightMissing\(n\)/,'Unanswered fields are highlighted');
+assert.match(js,/field\.classList\.toggle\("needs-answer",invalid\)/);
+assert.match(js,/field\.scrollIntoView\?\./,'Focus brings missing answer into view');
+for(const [question,error] of [['id="types"','id="error-1"'],['id="pays"','id="error-2"'],['id="lost"','id="error-3"'],['id="h4s"','id="error-4"']]){
+ const q=html.indexOf(question),e=html.indexOf(error);
+ assert.ok(q>=0&&e>q&&e-q<500,'Error appears next to '+question);
+}
+
 assert.match(js,/function go\(n\)/);
 assert.match(js,/if\(stepError\(step\)\)\{showStep\(step\);showValidation\(step\);return;\}/,'Both Next and report generation must block missing answers');
 
