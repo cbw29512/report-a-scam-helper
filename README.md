@@ -11,7 +11,7 @@ This is a static website. Connect the **existing** `report-a-scam-helper` Netlif
 - Build command: *(leave empty)*
 - Publish directory: `.` (repository root)
 
-Keep the previous successful Netlify deploy as the rollback point. Initial source recovery is on `main`; form improvements are in the `release/form-first-20261029` pull request.
+Keep the previous successful Netlify deploy as the rollback point. The recovered source and the tested form-first improvements are merged into `main`. Netlify deployment is a separate connection step.
 
 ## Flow
 
