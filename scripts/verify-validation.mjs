@@ -166,7 +166,7 @@ prepare('text',[],['none']);
 output=report();
 assert.match(output,/Information I gave them: I did not share information/,'Explicit no sharing is recorded');
 assert.doesNotMatch(output,/Consider a free credit freeze/);
-prepare('shop',[],[],'yes','gift');
+prepare('other',[],[],'yes','gift');
 output=report();
 assert.doesNotMatch(output,/Consider a free credit freeze/,'Gift-card losses alone do not require a credit freeze');
 assert.doesNotMatch(output,/Report online or cyber-enabled crime to the FBI’s IC3/,'Do not assert online scam when input is not cyber-enabled');
