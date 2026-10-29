@@ -30,7 +30,7 @@ textarea{min-height:100px}
 .btn.big{display:block;width:100%;margin:10px 0}
 .nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.nav .btn{flex:1 1 200px}
 .step{display:none}.step.on{display:block}
-.prog{font-weight:700}
+.prog{font-weight:700}.required-hint{font-weight:700;color:#7d0016}.validation-message{display:block;margin:12px 0 6px;padding:12px 14px;border:2px solid #b00020;border-radius:10px;background:#fff0f2;color:#800019;font-size:.88em;font-weight:700}.validation-message[hidden]{display:none}
 .hide{display:none}
 .task{background:#fff;border:3px solid var(--line);border-radius:14px;padding:16px;margin:0 0 16px}
 .task.done{border-color:var(--ok);background:#eef9f1}
@@ -57,32 +57,32 @@ footer{max-width:780px;margin:0 auto;padding:16px;font-size:.82em}
 <p>No account needed. You choose which reports to file; this site does not submit them for you.</p>
 </div>
 <p class="prog">Step 1 of 4</p><h2 id="h1s">What happened?</h2>
-<p class="hint">Tap everything that fits.</p><div class="chips" id="types"></div>
+<p class="hint">Tap everything that fits. <span class="required-hint">Choose at least one.</span></p><div class="chips" id="types" role="group" aria-label="What happened: at least one answer required"></div>
 <h3>Who did they say they were?</h3><p class="hint">Tap one, or skip.</p><div class="chips" id="whos"></div>
-<div class="nav"><button class="btn" type="button" data-go="2">Next</button></div></section>
+<p class="validation-message" id="error-1" role="alert" tabindex="-1" hidden></p><div class="nav"><button class="btn" type="button" data-go="2">Next</button></div></section>
 
 <section class="step" data-s="2" aria-labelledby="h2s"><p class="prog">Step 2 of 4</p><h2 id="h2s">How did you pay?</h2>
-<p class="hint">Tap everything that fits.</p><div class="chips" id="pays"></div>
-<div class="nav"><button class="btn alt" type="button" data-go="1">Back</button><button class="btn" type="button" data-go="3">Next</button></div></section>
+<p class="hint">Tap everything that fits. <span class="required-hint">If you did not pay, choose "I did not pay."</span></p><div class="chips" id="pays" role="group" aria-label="Payment method: an answer is required"></div>
+<p class="validation-message" id="error-2" role="alert" tabindex="-1" hidden></p><div class="nav"><button class="btn alt" type="button" data-go="1">Back</button><button class="btn" type="button" data-go="3">Next</button></div></section>
 
 <section class="step" data-s="3" aria-labelledby="h3s"><p class="prog">Step 3 of 4</p><h2 id="h3s">What did you lose?</h2>
-<h3>Did you lose money?</h3><div class="chips" id="lost"></div>
+<h3>Did you lose money? <span class="required-hint">(Required)</span></h3><div class="chips" id="lost" role="group" aria-label="Did you lose money: choose yes or no"></div>
 <div id="amtbox" class="hide"><h3>About how much?</h3><div class="chips" id="amts"></div>
 <label class="f" for="amt">Exact amount in dollars (optional)</label><input type="text" id="amt" inputmode="decimal" autocomplete="off" placeholder="For example: 1500"></div>
 <h3>Did you give them any of these?</h3><p class="hint">Tap everything that fits, or skip.</p><div class="chips" id="gave"></div>
-<div class="nav"><button class="btn alt" type="button" data-go="2">Back</button><button class="btn" type="button" data-go="4">Next</button></div></section>
+<p class="validation-message" id="error-3" role="alert" tabindex="-1" hidden></p><div class="nav"><button class="btn alt" type="button" data-go="2">Back</button><button class="btn" type="button" data-go="4">Next</button></div></section>
 
 <section class="step" data-s="4" aria-labelledby="h4s"><p class="prog">Step 4 of 4</p><h2 id="h4s">When did it happen?</h2>
-<h3>When did it start?</h3><div class="chips" id="d1c"></div>
+<h3>When did it start? <span class="required-hint">(Required; "Not sure" is okay)</span></h3><div class="chips" id="d1c" role="group" aria-label="When did it start: an answer is required"></div>
 <div id="d1box" class="hide"><label class="f" for="d1">Pick the date it started</label><input type="date" id="d1"></div>
-<h3>When was the last contact or payment?</h3><div class="chips" id="d2c"></div>
+<h3>When was the last contact or payment? <span class="required-hint">(Required; "Not sure" is okay)</span></h3><div class="chips" id="d2c" role="group" aria-label="Last contact or payment: an answer is required"></div>
 <div id="d2box" class="hide"><label class="f" for="d2">Pick the date of the last contact or payment</label><input type="date" id="d2"></div>
 <h3>Scammer details (all optional, skip anything you do not know)</h3>
 <label class="f" for="sphone">Their phone number</label><input type="tel" id="sphone" autocomplete="off">
 <label class="f" for="semail">Their email address</label><input type="email" id="semail" autocomplete="off">
 <label class="f" for="sweb">Their website or username</label><input type="text" id="sweb" autocomplete="off">
 <label class="f" for="story">What happened, in a few words (optional)</label><textarea id="story"></textarea>
-<div class="nav"><button class="btn alt" type="button" data-go="3">Back</button><button class="btn" type="button" id="make">Show my report plan</button></div></section>
+<p class="validation-message" id="error-4" role="alert" tabindex="-1" hidden></p><div class="nav"><button class="btn alt" type="button" data-go="3">Back</button><button class="btn" type="button" id="make">Show my report plan</button></div></section>
 
 <section id="result" class="step" aria-live="polite" tabindex="-1"></section>
 
