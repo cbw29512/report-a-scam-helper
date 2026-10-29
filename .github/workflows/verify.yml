@@ -20,3 +20,7 @@ jobs:
         run: node scripts/verify-site.mjs
       - name: Test required answers and report generation
         run: node scripts/verify-validation.mjs
+      - name: Install browser smoke-test runtime
+        run: npm install --no-save --no-audit --no-fund playwright-core@1.56.1
+      - name: Test form in headless Chrome (mobile viewport)
+        run: node scripts/verify-browser.mjs
