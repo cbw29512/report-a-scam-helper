@@ -28,6 +28,14 @@ assert.match(js, /\$\("after-results"\)\.hidden=true/);
 assert.match(js, /\$\("legal-notice"\)\.hidden=false/);
 assert.match(js, /\$\("legal-notice"\)\.hidden=true/);
 assert.match(js, /function build\(\)/);
+for (let n=1;n<=4;n++) assert.match(html,new RegExp('id="error-'+n+'"[^>]*role="alert"'), 'Accessible error for step '+n);
+assert.match(js,/lost:\[\]/,'Money loss must not silently default to No');
+assert.match(js,/\["unsure","Not sure"\]/,'Unknown date is an explicit choice');
+assert.match(js,/function stepError\(n\)/);
+assert.match(js,/function showValidation\(n\)/);
+assert.match(js,/function go\(n\)/);
+assert.match(js,/if\(stepError\(step\)\)\{showStep\(step\);showValidation\(step\);return;\}/,'Both Next and report generation must block missing answers');
+
 assert.match(js, /const FTC="https:\/\/reportfraud\.ftc\.gov\//);
 assert.match(js, /function dl\(\)/);
 assert.match(js, /function copyIt\(/);
