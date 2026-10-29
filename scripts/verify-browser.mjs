@@ -1,0 +1,48 @@
+import assert from 'node:assert/strict';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { resolve, dirname } from 'node:path';
+import { chromium } from 'playwright-core';
+
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
+const errors=[];
+const browser=await chromium.launch({channel:'chrome',headless:true,args:['--no-sandbox']});
+try{
+ const page=await browser.newPage({viewport:{width:390,height:844}});
+ page.on('pageerror',error=>errors.push(error.message));
+ await page.goto(pathToFileURL(resolve(root,'index.html')).href,{waitUntil:'domcontentloaded'});
+ await page.locator('#types .chip').first().waitFor();
+ assert.equal(await page.locator('.welcome').isVisible(),true);
+ assert.equal(await page.locator('#after-results').isVisible(),false);
+ assert.equal(await page.locator('.privacy-bottom').count(),1);
+ await page.locator('[data-go="2"]').first().click();
+ assert.equal(await page.locator('#error-1').isVisible(),true);
+ assert.equal(await page.locator('#types').getAttribute('aria-invalid'),'true');
+ assert.equal(await page.locator('#types').evaluate(el=>getComputedStyle(el).outlineStyle),'solid');
+ await page.locator('#types [data-v="text"]').click();
+ assert.equal(await page.locator('#error-1').isVisible(),false);
+ await page.locator('.step[data-s="1"] [data-go="2"]').click();
+ assert.equal(await page.locator('.step[data-s="2"]').isVisible(),true);
+ await page.locator('.step[data-s="2"] [data-go="3"]').click();
+ assert.equal(await page.locator('#error-2').isVisible(),true);
+ await page.locator('#pays [data-v="none"]').click();
+ await page.locator('.step[data-s="2"] [data-go="3"]').click();
+ await page.locator('.step[data-s="3"] [data-go="4"]').click();
+ assert.equal(await page.locator('#error-3').isVisible(),true);
+ await page.locator('#lost [data-v="no"]').click();
+ await page.locator('.step[data-s="3"] [data-go="4"]').click();
+ await page.locator('#make').click();
+ assert.equal(await page.locator('#error-4').isVisible(),true);
+ await page.locator('#d1c [data-v="unsure"]').click();
+ await page.locator('#d2c [data-v="unsure"]').click();
+ await page.locator('#make').click();
+ assert.equal(await page.locator('#result').isVisible(),true);
+ assert.equal(await page.locator('#after-results').isVisible(),true);
+ assert.equal(await page.locator('#legal-notice').isVisible(),true);
+ const summary=await page.locator('#sum').innerText();
+ assert.match(summary,/A text message/);
+ assert.match(summary,/Information I gave them: Not specified/);
+ assert.doesNotMatch(summary,/\$NaN/);
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2),true,'Mobile horizontal overflow');
+ assert.deepEqual(errors,[],'No uncaught browser JavaScript errors');
+ console.log('PASS: real Chrome mobile viewport, intro, required answers, highlights, result, privacy, overflow');
+}finally{await browser.close();}
