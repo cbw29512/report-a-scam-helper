@@ -18,6 +18,20 @@ assert.match(html, /links to official reporting websites/);
 assert.match(html, /this site does not submit them for you/);
 assert.equal((html.match(/class="welcome"/g) || []).length, 1, 'No repeat introduction during other steps');
 
+// Immediate protection cannot wait until the visitor completes all four steps.
+const safety = html.indexOf('class="safety-first"');
+const safetyTitle = html.indexOf('id="safety-first-title"');
+assert.ok(safety > welcome && safety < firstStepEnd, 'Immediate help belongs on the first step');
+assert.ok(safetyTitle > safety && safetyTitle < html.indexOf('Step 1 of 4'), 'Urgent guidance appears before questions');
+assert.equal((html.match(/class="safety-first"/g) || []).length, 1, 'One urgent-help section');
+assert.match(html, /Sent money\?/);
+assert.match(html, /Shared a password or device access\?/);
+assert.match(html, /Stop sending money or information/);
+assert.match(html, /Do not enter passwords, full card numbers, or Social Security numbers/);
+assert.match(html, /https:\/\/consumer\.ftc\.gov\/articles\/what-do-if-you-were-scammed/);
+assert.match(html, /class="safety-first" aria-labelledby="safety-first-title"/);
+
+
 for (const id of ['types','whos','pays','lost','amts','gave','d1c','d2c','make','result','sum','sharebtn','after-results','legal-notice']) {
   assert.match(html + js, new RegExp('(id="' + id + '"|id=' + id + '|\\$\\("' + id + '"\\))'), id);
 }

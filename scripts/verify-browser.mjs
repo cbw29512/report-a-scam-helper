@@ -12,6 +12,8 @@ try{
  await page.goto(pathToFileURL(resolve(root,'index.html')).href,{waitUntil:'domcontentloaded'});
  await page.locator('#types .chip').first().waitFor();
  assert.equal(await page.locator('.welcome').isVisible(),true);
+ assert.equal(await page.locator('.safety-first').isVisible(),true,'Protective guidance shown before questionnaire');
+ assert.equal(await page.locator('.safety-first a').getAttribute('href'),'https://consumer.ftc.gov/articles/what-do-if-you-were-scammed');
  assert.equal(await page.locator('#after-results').isVisible(),false);
  assert.equal(await page.locator('.privacy-bottom').count(),1);
  await page.locator('[data-go="2"]').first().click();
@@ -22,6 +24,7 @@ try{
  assert.equal(await page.locator('#error-1').isVisible(),false);
  await page.locator('.step[data-s="1"] [data-go="2"]').click();
  assert.equal(await page.locator('.step[data-s="2"]').isVisible(),true);
+ assert.equal(await page.locator('.safety-first').isVisible(),false,'First-step help does not clutter later questions');
  await page.locator('.step[data-s="2"] [data-go="3"]').click();
  assert.equal(await page.locator('#error-2').isVisible(),true);
  await page.locator('#pays [data-v="none"]').click();
@@ -50,6 +53,7 @@ try{
  assert.equal(await desktop.locator('.step.on').getAttribute('data-s'),'1');
  assert.equal(await desktop.locator('.toolbar-support').isVisible(),true);
  assert.equal(await desktop.locator('.welcome').isVisible(),true);
+ assert.equal(await desktop.locator('.safety-first').isVisible(),true,'Desktop visitors see protective guidance');
  assert.equal(await desktop.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+2),true,'Desktop horizontal overflow');
  assert.equal(await desktop.locator('.privacy-bottom').count(),1);
  assert.equal(await desktop.locator('a[href="https://buymeacoffee.com/divclass016"]').count(),2,'Exactly toolbar and end donation prompts');
